@@ -6,8 +6,7 @@ based on a client-server protocol.
 Project Website: http://electrum-desktop.com/
 
 This needs ecdsa and slowaes for python, easiest
-way is to install python-pip from SBo, then as
-root:
+way is to install package "pip" from SBo, then as root:
 #pip install ecdsa
 #pip install slowaes
 
