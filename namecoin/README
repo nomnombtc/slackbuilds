@@ -1,0 +1,12 @@
+namecoin (P2P distributed naming system)
+
+Namecoin is a distributed naming system based on bitcoin
+technology (a cryptocurrency). 
+
+* Securely register and transfer arbitrary names (keys) 
+* Attach values (data) to the names (up to 1023 bytes) 
+* Trade and transact namecoins, the digital currency NMC
+
+Project Website: www.dot-bit.org
+
+UPNP is disabled, it requires miniupnpc, which is not available on SBo.
