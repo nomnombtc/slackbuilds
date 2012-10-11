@@ -1,0 +1,14 @@
+Litecoin (P2P electronic cash system)
+
+Litecoin aims to be a coin that is like silver to Bitcoin's gold.
+It manages to maintain the unique traits and attributes of Bitcoin, 
+while adding to the mixture CPU-specific mining and a 2.5 minute 
+block rate. Litecoin uses Scrypt as a proof-of-work scheme. 
+Scrypt uses the low-latency cache memory of modern processors to
+provide greater hash-speeds on CPUs in comparison to GPUs.
+
+This requires: qrencode
+
+UPNP is disabled, it requires miniupnpc, which is not available on SBo.
+
+Package provides both, litecoin-qt (GUI) and litecoind (CLI).
