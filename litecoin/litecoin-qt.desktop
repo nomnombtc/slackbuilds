@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Litecoin
+GenericName=Litecoin QT-Client
+Comment=Litecoin client to send and receive money
+Exec=/usr/bin/litecoin-qt
+Icon=litecoin
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Network;P2P
