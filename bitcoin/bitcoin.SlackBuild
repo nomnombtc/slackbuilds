@@ -72,6 +72,7 @@ find . \
 cd src/
 
 # build bitcoin-qt
+CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
 qmake "USE_UPNP=-" USE_SSL=1 USE_QRCODE=1
 make -j4
@@ -84,6 +85,7 @@ cd src
 sed -i 's/USE_UPNP:=0/USE_UPNP:=/g' makefile.unix
 # disable static linking, not supported by boost in slackware
 sed -i 's/Bstatic/Bdynamic/g' makefile.unix
+CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
 make -f makefile.unix bitcoind USE_SSL=1
 
