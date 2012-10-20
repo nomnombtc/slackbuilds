@@ -23,9 +23,10 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PRGNAM=electrum
-VERSION=${VERSION:-git260912}
+VERSION=${VERSION:-1.1}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_nnb}
+SRCNAM=$(echo $PRGNAM | awk -F "" '{$1=toupper($1)}1' OFS=)
 
 # Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
@@ -56,9 +57,9 @@ set -e
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
-rm -rf $PRGNAM-$VERSION
-tar xvf $CWD/$PRGNAM-$VERSION.tar.?z*
-cd $PRGNAM-$VERSION
+rm -rf $SRCNAM-$VERSION
+tar xvf $CWD/$SRCNAM-$VERSION.tar.?z*
+cd $SRCNAM-$VERSION
 
 chown -R root:root .
 
@@ -67,9 +68,6 @@ find . \
  -exec chmod 755 {} \; -o \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
-
-pyrcc4 icons.qrc -o lib/icons_rc.py
-python mki18n.py
 
 #slackify icon paths
 sed -i 's/app-install\/icons/pixmaps/g' setup.py
