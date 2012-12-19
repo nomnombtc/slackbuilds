@@ -25,7 +25,7 @@
 PRGNAM=bitcoin
 VERSION=${VERSION:-0.7.1}
 BUILD=${BUILD:-1}
-TAG=${TAG:-_nnb}
+TAG=${TAG:-_SBo}
 
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
@@ -49,7 +49,7 @@ elif [ "$ARCH" = "i686" ]; then
 elif [ "$ARCH" = "x86_64" ]; then
   SLKCFLAGS="-O2 -fPIC"
   LIBDIRSUFFIX="64"
-else 
+else
   SLKCFLAGS="-O2"
   LIBDIRSUFFIX=""
 fi
@@ -58,7 +58,7 @@ set -e
 
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
-cd $TMP 
+cd $TMP
 rm -rf $PRGNAM-$VERSION-linux
 tar xvf $CWD/${PRGNAM}-$VERSION-linux.tar.gz
 cd $PRGNAM-$VERSION-linux
@@ -69,52 +69,55 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-cd src/
-
-# build bitcoin-qt
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-qmake "USE_UPNP=-" USE_SSL=1 USE_QRCODE=1
-make -j4
-
-# src/src
 cd src
 
-# build bitcoind
-# disable UPNP(this would require miniupnpc)
-sed -i 's/USE_UPNP:=0/USE_UPNP:=/g' makefile.unix
-# disable static linking, not supported by boost in slackware
-sed -i 's/Bstatic/Bdynamic/g' makefile.unix
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-make -f makefile.unix bitcoind USE_SSL=1
+# build bitcoin-qt
+qmake \
+  QMAKE_CFLAGS+="$SLKCFLAGS" \
+  QMAKE_CXXFLAGS+="$SLKCFLAGS" \
+  "USE_UPNP=-" \
+  USE_SSL=1 \
+  USE_QRCODE=1
 
-# src/
-cd ..
+make
+
+# build bitcoind
+cd src
+
+  # disable UPNP(this would require miniupnpc)
+  sed -i 's/USE_UPNP:=0/USE_UPNP:=/g' makefile.unix
+
+  # disable static linking, not supported by boost in slackware
+  sed -i 's/Bstatic/Bdynamic/g' makefile.unix
+
+  CFLAGS="$SLKCFLAGS" \
+  CXXFLAGS="$SLKCFLAGS" \
+  make -f makefile.unix \
+    bitcoind \
+    USE_SSL=1
+cd -
 
 mkdir -p $PKG/usr/bin
-mkdir -p $PKG/usr/share/pixmaps
-mkdir -p $PKG/usr/share/applications
-mkdir -p $PKG/usr/share/kde4/services
+mkdir -p $PKG/usr/share/{applications,kde4/services,pixmaps}
 
-install -m 0755 bitcoin-qt $PKG/usr/bin/bitcoin-qt
-install -m 0755 src/bitcoind $PKG/usr/bin/bitcoind
+install -m 0755 bitcoin-qt $PKG/usr/bin/
+install -m 0755 src/bitcoind $PKG/usr/bin/
 
 install -m 0644 src/qt/res/icons/bitcoin.png $PKG/usr/share/pixmaps/
-install -m 0644 $CWD/bitcoin-qt.desktop $PKG/usr/share/applications
-install -m 0644 $CWD/bitcoin.protocol $PKG/usr/share/kde4/services
+install -m 0644 $CWD/bitcoin-qt.desktop $PKG/usr/share/applications/
+install -m 0644 $CWD/bitcoin.protocol $PKG/usr/share/kde4/services/
 
-# Strip binaries:
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
-cp -a doc/README COPYING $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a doc/README COPYING \
+  $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
-chmod 0644 $PKG/usr/doc/$PRGNAM-$VERSION/*
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
+cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 cd $PKG
 /sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
