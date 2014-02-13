@@ -1,7 +1,7 @@
 #!/bin/sh
 
 TS=$(date +%d%m%y)
-PRGNAM=electrum
+PRGNAM=bitcoin
 URL="git://github.com/bitcoin/bitcoin.git"
 
 git clone $URL && \
