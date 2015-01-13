@@ -1,5 +1,5 @@
 PRGNAM="bitcoin"
-VERSION="0.9.3"
+VERSION="0.9.4"
 HOMEPAGE="http://www.bitcoin.org"
 DOWNLOAD="https://github.com/bitcoin/bitcoin/archive/v0.9.4.tar.gz"
 MD5SUM="8f3c0c071e6c432c0c8b47bcdb8a9046"
