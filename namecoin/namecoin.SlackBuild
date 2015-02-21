@@ -23,7 +23,7 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PRGNAM=namecoin
-VERSION=${VERSION:-git071012}
+VERSION=${VERSION:-git210215}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_nnb}
 
@@ -55,6 +55,12 @@ else
   LIBDIRSUFFIX=""
 fi
 
+# Detect miniupnpc
+if [ -x /usr/bin/upnpc ]; then UPNP=1; else UPNP="-"; fi
+
+# Detect qrencode
+if [ -x /usr/bin/qrencode ]; then QRCODE=1; else QRCODE=0; fi
+
 set -e
 
 rm -rf $PKG
@@ -72,19 +78,34 @@ find . \
 
 cd src/
 
+#build namecoin-qt
+qmake \
+  QMAKE_CFLAGS+="$SLKCFLAGS" \
+  QMAKE_CXXFLAGS+="$SLKCFLAGS" \
+  "USE_UPNP=$UPNP" \
+  USE_QRCODE=$QRCODE \
+  USE_SSL=1 \
+  ..
+
+#build namecoind
 # disable UPNP(needs miniupnpc)
-sed -i 's/USE_UPNP:=0/USE_UPNP:=/g' makefile.unix
+sed -i 's/USE_UPNP:=0/USE_UPNP:=/g' Makefile
 # disable static linking, not supported by boost in slackware
-sed -i 's/Bstatic/Bdynamic/g' makefile.unix
+sed -i 's/Bstatic/Bdynamic/g' Makefile
 
 CFLAGS="$SLKCFLAGS" \
-make -f makefile.unix CXXFLAGS="$SLKCFLAGS -fpermissive" namecoind USE_SSL=1
+make -f Makefile CXXFLAGS="$SLKCFLAGS -fpermissive" namecoind USE_SSL=1
+
+cd -
 
 mkdir -p $PKG/usr/bin
+mkdir -p $PKG/usr/share/{applications,pixmaps}
 
-install -m 0755 namecoind $PKG/usr/bin/namecoind
+install -m 0755 namecoin-qt $PKG/usr/bin/
+install -m 0755 src/namecoind $PKG/usr/bin/
 
-cd ..
+install -m 0644 src/qt/res/icons/namecoin.png $PKG/usr/share/pixmaps/
+install -m 0644 $CWD/namecoin-qt.desktop $PKG/usr/share/applications/
 
 # Strip binaries:
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
