@@ -2,7 +2,7 @@
 
 TS=$(date +%d%m%y)
 PRGNAM=namecoin
-URL="git://github.com/khalahan/namecoin.git"
+URL="git://github.com/namecoin/namecoin.git"
 
 git clone $URL && \
 	mv $PRGNAM $PRGNAM-git${TS}
