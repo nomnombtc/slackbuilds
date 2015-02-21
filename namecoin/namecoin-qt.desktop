@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Namecoin
+GenericName=Namecoin QT-Client
+Comment=Namecoin client
+Exec=/usr/bin/namecoin-qt
+Icon=namecoin
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Network;P2P
