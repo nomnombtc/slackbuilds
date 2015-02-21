@@ -76,25 +76,29 @@ find . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-cd src/
-
 #build namecoin-qt
 qmake \
   QMAKE_CFLAGS+="$SLKCFLAGS" \
   QMAKE_CXXFLAGS+="$SLKCFLAGS" \
   "USE_UPNP=$UPNP" \
   USE_QRCODE=$QRCODE \
-  USE_SSL=1 \
-  ..
+  USE_SSL=1 
+
+make
 
 #build namecoind
-# disable UPNP(needs miniupnpc)
-sed -i 's/USE_UPNP:=0/USE_UPNP:=/g' Makefile
-# disable static linking, not supported by boost in slackware
-sed -i 's/Bstatic/Bdynamic/g' Makefile
+cd src/
 
-CFLAGS="$SLKCFLAGS" \
-make -f Makefile CXXFLAGS="$SLKCFLAGS -fpermissive" namecoind USE_SSL=1
+  if [ "$UPNP" = "-"]; then
+    # disable UPNP
+    sed -i 's/USE_UPNP:=0/USE_UPNP:=/g' Makefile
+  fi
+
+  # disable static linking, not supported by boost in slackware
+  sed -i 's/Bstatic/Bdynamic/g' Makefile
+
+  CFLAGS="$SLKCFLAGS" \
+  make -f Makefile CXXFLAGS="$SLKCFLAGS -fpermissive" namecoind USE_SSL=1
 
 cd -
 
@@ -104,7 +108,7 @@ mkdir -p $PKG/usr/share/{applications,pixmaps}
 install -m 0755 namecoin-qt $PKG/usr/bin/
 install -m 0755 src/namecoind $PKG/usr/bin/
 
-install -m 0644 src/qt/res/icons/namecoin.png $PKG/usr/share/pixmaps/
+install -m 0644 src/qt/res/icons/bitcoin.png $PKG/usr/share/pixmaps/namecoin.png
 install -m 0644 $CWD/namecoin-qt.desktop $PKG/usr/share/applications/
 
 # Strip binaries:
