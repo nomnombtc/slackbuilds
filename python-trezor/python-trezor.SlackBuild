@@ -62,7 +62,7 @@ find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
 #sed -i "s/\xd$//g" README
 
 mkdir -p $PKG/etc/udev/rules.d
-cat trezor-common/udev/51-trezor-udev.rules > $PKG/etc/udev/rules.d/20-trezor.rules 
+cat trezor-common/udev/51-trezor.rules > $PKG/etc/udev/rules.d/51-trezor.rules 
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a README.rst COPYING $PKG/usr/doc/$PRGNAM-$VERSION
