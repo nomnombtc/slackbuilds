@@ -98,7 +98,7 @@ make install DESTDIR=$PKG
 # by adding "--enable-tests=no" to the above configure command.
 rm $PKG/usr/bin/test*
 
-mkdir -p $PKG/usr/{bin,man/man{1,5}}
+mkdir -p $PKG/usr/man/man{1,5}
 mkdir -p $PKG/usr/share/{applications,kde4/services,pixmaps}
 
 install -m 0644 contrib/debian/manpages/bitcoin-qt.1 $PKG/usr/man/man1/
