@@ -54,9 +54,6 @@ else
   LIBDIRSUFFIX=""
 fi
 
-# Detect miniupnpc
-if [ -x /usr/bin/upnpc ]; then UPNP="--enable-upnp-default"; else UPNP=""; fi
-
 # Detect qrencode
 if [ -x /usr/bin/qrencode ]; then QRCODE="--with-qrencode"; else QRCODE=""; fi
 
@@ -85,7 +82,6 @@ CXXFLAGS="$SLKCFLAGS" \
   --libdir=/usr/lib${LIBDIRSUFFIX} \
   --sysconfdir=/etc \
   --mandir=/usr/man \
-  $UPNP	\
   $QRCODE \
   --with-gui=qt4 \
   --build=$ARCH-slackware-linux \
