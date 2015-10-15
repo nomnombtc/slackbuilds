@@ -16,4 +16,3 @@ Please make sure you read the Release notes first before upgrading:
 https://bitcoin.org/en/release/v0.11.1
 
 qrencode is an optional but strongly recommended dependency.
-UPNP is disabled, it requires the optional dependency miniupnpc.
