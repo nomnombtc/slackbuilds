@@ -23,11 +23,10 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PRGNAM=namecoin
-VERSION=${VERSION:-git210215}
+VERSION=${VERSION:-git081115}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_nnb}
 
-# Automatically determine the architecture we're building on:
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
     i?86) ARCH=i486 ;;
@@ -50,78 +49,71 @@ elif [ "$ARCH" = "i686" ]; then
 elif [ "$ARCH" = "x86_64" ]; then
   SLKCFLAGS="-O2 -fPIC"
   LIBDIRSUFFIX="64"
-else 
+else
   SLKCFLAGS="-O2"
   LIBDIRSUFFIX=""
 fi
 
-# Detect miniupnpc
-if [ -x /usr/bin/upnpc ]; then UPNP=1; else UPNP="-"; fi
-
 # Detect qrencode
-if [ -x /usr/bin/qrencode ]; then QRCODE=1; else QRCODE=0; fi
+if [ -x /usr/bin/qrencode ]; then QRCODE="--with-qrencode"; else QRCODE=""; fi
 
 set -e
 
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
-cd $TMP 
+cd $TMP
 rm -rf $PRGNAM-$VERSION
-tar xvf $CWD/${PRGNAM}-$VERSION.tar.bz2
+tar xvf $CWD/$PRGNAM-$VERSION.tar.bz2 || tar xvf $CWD/v$VERSION.tar.gz
 cd $PRGNAM-$VERSION
-chown -R root:root .
-find . \
- \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
- -exec chmod 755 {} \; -o \
- \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
- -exec chmod 644 {} \;
 
-#build namecoin-qt
-qmake \
-  QMAKE_CFLAGS+="$SLKCFLAGS" \
-  QMAKE_CXXFLAGS+="$SLKCFLAGS" \
-  "USE_UPNP=$UPNP" \
-  USE_QRCODE=$QRCODE \
-  USE_SSL=1 
+chown -R root:root .
+find -L . \
+ \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
+  -o -perm 511 \) -exec chmod 755 {} \; -o \
+ \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+ -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+
+# build namecoin-core
+[ -f autogen.sh ] && sh autogen.sh
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib${LIBDIRSUFFIX} \
+  --sysconfdir=/etc \
+  --mandir=/usr/man \
+  $QRCODE \
+  --with-gui=qt4 \
+  --build=$ARCH-slackware-linux \
+  --host=$ARCH-slackware-linux
 
 make
+make install DESTDIR=$PKG
 
-#build namecoind
-cd src/
+# Remove the "test" binaries. Alternatively, you can explicitly disable tests
+# by adding "--enable-tests=no" to the above configure command.
+rm $PKG/usr/bin/test*
 
-  if [ "$UPNP" = "-"]; then
-    # disable UPNP
-    sed -i 's/USE_UPNP:=0/USE_UPNP:=/g' Makefile
-  fi
+# remove this leftover from bitcoins benchmark framework
+rm $PKG/usr/bin/bench_bitcoin
 
-  # disable static linking, not supported by boost in slackware
-  sed -i 's/Bstatic/Bdynamic/g' Makefile
-
-  CFLAGS="$SLKCFLAGS" \
-  make -f Makefile CXXFLAGS="$SLKCFLAGS -fpermissive" namecoind USE_SSL=1
-
-cd -
-
-mkdir -p $PKG/usr/bin
 mkdir -p $PKG/usr/share/{applications,pixmaps}
-
-install -m 0755 namecoin-qt $PKG/usr/bin/
-install -m 0755 src/namecoind $PKG/usr/bin/
 
 install -m 0644 src/qt/res/icons/bitcoin.png $PKG/usr/share/pixmaps/namecoin.png
 install -m 0644 $CWD/namecoin-qt.desktop $PKG/usr/share/applications/
 
-# Strip binaries:
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
-cp -a doc/README COPYING $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a doc/README.md COPYING doc/assets-attribution.md \
+  doc/build-unix.md doc/release-notes.md doc/tor.md \
+  $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
-chmod 0644 $PKG/usr/doc/$PRGNAM-$VERSION/*
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
+cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 cd $PKG
 /sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
