@@ -1,12 +1,13 @@
 #!/bin/sh
 
 TS=$(date +%d%m%y)
-PRGNAM=namecoin
-URL="git://github.com/namecoin/namecoin.git"
+PRGNAM=namecoin-core
+TBNAME=namecoin
+URL="git://github.com/namecoin/namecoin-core.git"
 
 git clone $URL && \
-	mv $PRGNAM $PRGNAM-git${TS}
+	mv $PRGNAM $TBNAME-git${TS}
 
-tar cvjf $PRGNAM-git${TS}.tar.bz2 $PRGNAM-git${TS} && \
-	rm -rf $PRGNAM-git${TS}
+tar cvjf $TBNAME-git${TS}.tar.bz2 $TBNAME-git${TS} && \
+	rm -rf $TBNAME-git${TS}
 
