@@ -9,11 +9,11 @@
 namecoin: namecoin (P2P distributed naming system)
 namecoin:
 namecoin: Namecoin is a distributed naming system based on bitcoin
-namecoin: technology (a cryptocurrency). 
+namecoin: technology (a cryptocurrency).
 namecoin:
-namecoin: * Securely register and transfer arbitrary names (keys) 
-namecoin: * Attach values (data) to the names (up to 1023 bytes) 
-namecoin: * Trade and transact namecoins, the digital currency NMC
+namecoin: * Securely record and transfer arbitrary names (keys).
+namecoin: * Attach a value (data) to the names (up to 520 bytes).
+namecoin: * Transact namecoins, the digital currency (NMC).
 namecoin:
 namecoin: Project Website: https://namecoin.info
 namecoin:
