@@ -14,6 +14,6 @@ bitcoinclassic: server or trusted parties.  Users hold the crypto keys to their
 bitcoinclassic: own money and transact directly with each other, with the help
 bitcoinclassic: of a P2P network to check for double-spending.
 bitcoinclassic:
-bitcoinclassic: Bitcoin classic tries to reach majority support to increase the
-bitcoinclassic: the blocksize to 2MB with a hardfork under specific conditions.
-bitcoinclassic: Project Website: https://bitcoinclassic.com
+bitcoinclassic: Bitcoin Classic is currently a one-time increase in total amount of
+bitcoinclassic: transaction data permitted in a block from 1MB to 2MB, with limits on
+bitcoinclassic: signature operations and hashing. Website: https://bitcoinclassic.com
