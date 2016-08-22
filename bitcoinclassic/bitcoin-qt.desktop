@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Bitcoin-Classic
-GenericName=Bitcoin-Classic QT-Client
+GenericName=Bitcoin QT-Client
 Comment=Bitcoin client to send and receive money
 Exec=/usr/bin/bitcoin-qt
 Icon=bitcoin
