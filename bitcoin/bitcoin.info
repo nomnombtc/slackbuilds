@@ -1,7 +1,7 @@
 PRGNAM="bitcoin"
 VERSION="0.13.0"
 HOMEPAGE="http://www.bitcoincore.org"
-DOWNLOAD="https://github.com/bitcoin/bitcoin/archive/v0.13.0.tar.gz"
+DOWNLOAD="https://github.com/bitcoin/bitcoin/archive/v0.13.0/bitcoin-0.13.0.tar.gz"
 MD5SUM="1cee144c1a359d0f202be401744f9be7"
 DOWNLOAD_x86_64=""
 MD5SUM_x86_64=""
