@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+                |-----handy-ruler------------------------------------------------------|
+BitcoinUnlimited: BitcoinUnlimited (P2P electronic cash system)
+BitcoinUnlimited:
+BitcoinUnlimited: Every node operator or miner can currently choose their own
+BitcoinUnlimited: blocksize limit by modifying their client. Bitcoin Unlimited
+BitcoinUnlimited: makes the process easier by providing a configurable option
+BitcoinUnlimited: for the accepted and generated blocksize via a GUI menu.
+BitcoinUnlimited:
+BitcoinUnlimited:
+BitcoinUnlimited:
+BitcoinUnlimited: Project Website: https://bitcoinunlimited.info
+BitcoinUnlimited:
