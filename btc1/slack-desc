@@ -6,14 +6,14 @@
 # customary to leave one space after the ':' except on otherwise blank lines.
 
        |-----handy-ruler------------------------------------------------------|
-bitcoin: bitcoin (P2P electronic cash system)
-bitcoin:
-bitcoin: Bitcoin is a free open source peer-to-peer electronic cash system
-bitcoin: that is completely decentralized, without the need for a central
-bitcoin: server or trusted parties.  Users hold the crypto keys to their
-bitcoin: own money and transact directly with each other, with the help
-bitcoin: of a P2P network to check for double-spending.
-bitcoin:
-bitcoin: Project Website: https://segwit2x.github.io
-bitcoin:
-bitcoin:
+btc1: bitcoin (P2P electronic cash system)
+btc1:
+btc1: Bitcoin is a free open source peer-to-peer electronic cash system
+btc1: that is completely decentralized, without the need for a central
+btc1: server or trusted parties.  Users hold the crypto keys to their
+btc1: own money and transact directly with each other, with the help
+btc1: of a P2P network to check for double-spending.
+btc1:
+btc1: Project Website: https://segwit2x.github.io
+btc1:
+btc1:
