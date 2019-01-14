@@ -5,7 +5,7 @@
 # based on pyusb SlackBuild by Kyle Guinn <elyk03@gmail.com>
 
 PRGNAM=python-trezor
-VERSION=${VERSION:-git100817}
+VERSION=${VERSION:-git140119}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_nnb}
 
@@ -51,22 +51,19 @@ find -L . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
+# initialize trezor-common submodule (contains udev rules)
+git submodule update --init
+
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
-python ./setup.py install --root=$PKG
-[ -x /usr/bin/python3 ] && python3 ./setup.py install --root=$PKG
+[ -x /usr/bin/python3 ] && python3 ./setup.py install --root=$PKG || \
+  (echo "Error: This package needs python3 to work" && exit 1)
 
-find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
-  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
-
-# Normalize line endings
-#sed -i "s/\xd$//g" README
-
-mkdir -p $PKG/etc/udev/rules.d
-cat trezor-common/udev/51-trezor.rules > $PKG/etc/udev/rules.d/51-trezor.rules 
+mkdir -p $PKG/lib/udev/rules.d
+cat trezor-common/udev/51-trezor.rules > $PKG/lib/udev/rules.d/51-trezor.rules 
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
-cp -a README.rst COPYING $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a docs/README.rst docs/OPTIONS.rst docs/EXAMPLES.rst AUTHORS COPYING $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 mkdir -p $PKG/install
