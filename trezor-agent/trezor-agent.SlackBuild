@@ -5,7 +5,7 @@
 # based on pyusb SlackBuild by Kyle Guinn <elyk03@gmail.com>
 
 PRGNAM=trezor-agent
-VERSION=${VERSION:-git180915}
+VERSION=${VERSION:-git090519}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_nnb}
 
@@ -53,7 +53,10 @@ find -L . \
 
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
-python ./setup.py install --root=$PKG
+python3 ./setup.py install --root=$PKG
+
+cd agents/trezor
+python3 ./setup.py install --root=$PKG
 
 find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
