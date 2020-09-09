@@ -6,3 +6,5 @@ octal, binary, strings or files. They can be sliced, joined, reversed,
 inserted into, overwritten, etc. with simple functions or slice notation.
 They can also be read from, searched and replaced, and navigated in,
 similar to a file or stream.
+
+Optional dependency: python3 (automatically detected)
