@@ -1,19 +1,18 @@
 #!/bin/sh
 
 TS=$(date +%d%m%y)
-PRGNAM=python-trezor
-URL="https://github.com/trezor/python-trezor.git"
-TAG="v0.11.2"
+PRGNAM=trezor
+URL="https://github.com/trezor/trezor-firmware.git"
+VER="0.12.2"
+TAG="python/v$VER"
 
 git clone $URL && \
-	mv $PRGNAM $PRGNAM-git${TS}_${TAG}
+	mv $PRGNAM-firmware $PRGNAM-git${TS}_${VER}
 
-cd $PRGNAM-git${TS}_${TAG}
-git submodule add https://github.com/trezor/trezor-common.git trezor-common
-git fetch --tags
+cd $PRGNAM-git${TS}_${VER}
 git checkout $TAG
 cd ..
 
-tar cvjf $PRGNAM-git${TS}_${TAG}.tar.bz2 $PRGNAM-git${TS}_${TAG} && \
-	rm -rf $PRGNAM-git${TS}_${TAG}
+tar cvzf $PRGNAM-git${TS}_${VER}.tar.gz $PRGNAM-git${TS}_${VER} && \
+	rm -rf $PRGNAM-git${TS}_${VER}
 

@@ -4,8 +4,9 @@
 # modified by nnb
 # based on pyusb SlackBuild by Kyle Guinn <elyk03@gmail.com>
 
-PRGNAM=python-trezor
-VERSION=${VERSION:-git140119}
+SRCNAM=trezor
+PRGNAM=python-$SRCNAM
+VERSION=${VERSION:-git240920_0.12.2}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_nnb}
 
@@ -41,9 +42,9 @@ set -e
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
-rm -rf $PRGNAM-$VERSION
-tar -xvf $CWD/$PRGNAM-$VERSION.tar.bz2
-cd $PRGNAM-$VERSION
+rm -rf $SRCNAM-$VERSION
+tar -xvf $CWD/$SRCNAM-$VERSION.tar.gz
+cd $SRCNAM-$VERSION
 chown -R root:root .
 find -L . \
  \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 -o -perm 511 \) \
@@ -51,8 +52,7 @@ find -L . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-# initialize trezor-common submodule (contains udev rules)
-git submodule update --init
+cd python/
 
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
@@ -60,7 +60,7 @@ CXXFLAGS="$SLKCFLAGS" \
   (echo "Error: This package needs python3 to work" && exit 1)
 
 mkdir -p $PKG/lib/udev/rules.d
-cat trezor-common/udev/51-trezor.rules > $PKG/lib/udev/rules.d/51-trezor.rules 
+cat ../common/udev/51-trezor.rules > $PKG/lib/udev/rules.d/51-trezor.rules 
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a docs/README.rst docs/OPTIONS.rst docs/EXAMPLES.rst AUTHORS COPYING $PKG/usr/doc/$PRGNAM-$VERSION
