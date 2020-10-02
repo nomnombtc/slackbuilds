@@ -5,7 +5,7 @@
 # based on pyusb SlackBuild by Kyle Guinn <elyk03@gmail.com>
 
 PRGNAM=trezor-agent
-VERSION=${VERSION:-git090519}
+VERSION=${VERSION:-0.14.1}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_nnb}
 
@@ -42,7 +42,7 @@ rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 rm -rf $PRGNAM-$VERSION
-tar -xvf $CWD/$PRGNAM-$VERSION.tar.bz2
+tar -xvf $CWD/$PRGNAM-$VERSION.tar.?z*
 cd $PRGNAM-$VERSION
 chown -R root:root .
 find -L . \
