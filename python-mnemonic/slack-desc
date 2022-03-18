@@ -8,12 +8,12 @@
      |-----handy-ruler------------------------------------------------------|
 python-mnemonic: python-mnemonic
 python-mnemonic:
-python-mnemonic: 
-python-mnemonic: 
+python-mnemonic: Reference implementation of BIP-0039:
+python-mnemonic: Mnemonic code for generating deterministic keys
 python-mnemonic: 
 python-mnemonic:
 python-mnemonic:
-python-mnemonic:
+python-mnemonic: Project URL: https://github.com/trezor/python-mnemonic.git
 python-mnemonic:
 python-mnemonic:
 python-mnemonic:
