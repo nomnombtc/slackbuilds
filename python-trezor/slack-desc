@@ -8,12 +8,12 @@
      |-----handy-ruler------------------------------------------------------|
 python-trezor: python-trezor (Python bindings for trezor hardwarewallet)
 python-trezor:
-python-trezor: 
-python-trezor: 
+python-trezor: Python library and command-line client for
+python-trezor: communicating with Trezor Hardware Wallet.
 python-trezor: 
 python-trezor:
 python-trezor:
-python-trezor:
+python-trezor: Project URL: https://github.com/trezor/trezor-firmware
 python-trezor:
 python-trezor:
 python-trezor:

@@ -3,7 +3,7 @@
 TS=$(date +%d%m%y)
 PRGNAM=trezor
 URL="https://github.com/trezor/trezor-firmware.git"
-VER="0.12.2"
+VER="0.13.0"
 TAG="python/v$VER"
 
 git clone $URL && \
