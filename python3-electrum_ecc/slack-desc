@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+                    |-----handy-ruler------------------------------------------------------|
+python3-electrum_ecc: python3-electrum_ecc (pure python interface to libsecp256k1)
+python3-electrum_ecc:
+python3-electrum_ecc: This package provides a pure python interface to libsecp256k1.
+python3-electrum_ecc: Unlike Coincurve, it uses ctypes, and has no dependency.
+python3-electrum_ecc:
+python3-electrum_ecc: https://github.com/spesmilo/electrum-ecc
+python3-electrum_ecc:
+python3-electrum_ecc:
+python3-electrum_ecc:
+python3-electrum_ecc:
+python3-electrum_ecc:
