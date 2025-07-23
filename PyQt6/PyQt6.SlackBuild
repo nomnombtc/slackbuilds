@@ -1,0 +1,147 @@
+#!/bin/sh
+
+# Slackware build script for PyQt6
+
+# Copyright 2008  Aleksandar Samardzic <asamardzic@gmail.com>
+# Copyright 2008, 2009, 2010, 2011, 2015, 2016, 2017, 2020, 2023  Patrick J. Volkerding, Sebeka, MN, USA
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# Modified by Robby Workman <rworkman@slackware.com>
+# Modified by Eric Hameleers <alien@slackware.com>
+# Modified by nnb <nomnombtc@arcor.de>
+
+cd $(dirname $0) ; CWD=$(pwd)
+
+PKGNAM=PyQt6
+SRCNAM=pyqt6
+VERSION=${VERSION:-$(echo $SRCNAM-*.tar.?z | rev | cut -f 3- -d . | cut -f 1 -d - | rev)}
+BUILD=${BUILD:-1nnb}
+
+# Automatically determine the architecture we're building on:
+if [ -z "$ARCH" ]; then
+  case "$(uname -m)" in
+    i?86) ARCH=i686 ;;
+    arm*) readelf /usr/bin/file -A | grep -E -q "Tag_CPU.*[4,5]" && ARCH=arm || ARCH=armv7hl ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+    *) ARCH=$(uname -m) ;;
+  esac
+  export ARCH
+fi
+
+if [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=pentium4 -mtune=generic"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+  LIBDIRSUFFIX="64"
+elif [ "$ARCH" = "armv7hl" ]; then
+  SLKCFLAGS="-O2 -march=armv7-a -mfpu=vfpv3-d16"
+  LIBDIRSUFFIX=""
+else
+  SLKCFLAGS="-O2"
+  LIBDIRSUFFIX=""
+fi
+
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PKGNAM-$(echo $VERSION |tr - _)-$ARCH-$BUILD.txz"
+  exit 0
+fi
+
+NUMJOBS=${NUMJOBS:-" -j$(expr $(nproc) + 1) "}
+
+TMP=${TMP:-/tmp}
+PKG=$TMP/package-$PKGNAM
+
+PYTHON3LIB=$( python3 -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())' 2>/dev/null )
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+rm -rf ${SRCNAM}-$VERSION
+tar xvf $CWD/${SRCNAM}-$VERSION.tar.?z || exit 1
+cd ${SRCNAM}-$VERSION || exit 1
+
+chown -R root:root .
+find . \
+ \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+ -exec chmod 755 {} \+ -o \
+ \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+ -exec chmod 644 {} \+
+
+# This avoids compiling a version number into KDE's .la files:
+export QT6DIR=/usr/lib${LIBDIRSUFFIX}/qt6
+
+export CFLAGS="$SLKCFLAGS"
+export CXXFLAGS="$SLKCFLAGS"
+
+sip-build \
+  --confirm-license \
+  --no-make \
+  --qmake=/usr/bin/qmake6 \
+  --api-dir /usr/share/qt6/qsci/api/python \
+  --pep484-pyi \
+  || exit 1
+
+cd build || exit 1
+make $NUMJOBS || exit 1
+make INSTALL_ROOT=$PKG install || exit 1
+cd ..
+
+# Remove obsolete python2 uic modules:
+rm -rf $PKG/$PYTHON3LIB/PyQt6/uic/port_v2 || echo "obsolete python2 uic failed...EGAL"
+
+# Compile Python bytecode:
+python -m compileall -d / $PKG/usr/lib$LIBDIRSUFFIX
+python -O -m compileall -d / $PKG/usr/lib$LIBDIRSUFFIX
+
+find $PKG | xargs file | grep -e "executable" -e "shared object" \
+  | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+# Remove rpaths:
+for file in $(find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : 2> /dev/null) ; do
+  if [ ! "$(patchelf --print-rpath $file 2> /dev/null)" = "" ]; then
+    patchelf --remove-rpath $file
+  fi
+done
+
+mkdir -p $PKG/usr/doc/$PKGNAM-$VERSION
+cp -a \
+  ChangeLog LICENSE* NEWS* PKG-INFO* README* \
+  $PKG/usr/doc/$PKGNAM-$VERSION
+
+# If there's a ChangeLog, installing at least part of the recent history
+# is useful, but don't let it get totally out of control:
+if [ -r ChangeLog ]; then
+  DOCSDIR=$(echo $PKG/usr/doc/${PKGNAM}-$VERSION)
+  cat ChangeLog | head -n 1000 > $DOCSDIR/ChangeLog
+  touch -r ChangeLog $DOCSDIR/ChangeLog
+fi
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+
+cd $PKG
+/sbin/makepkg -l y -c n $TMP/$PKGNAM-$(echo $VERSION |tr - _)-$ARCH-$BUILD.txz
