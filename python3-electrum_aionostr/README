@@ -1,0 +1,2 @@
+electrum-aionostr is a asyncio nostr client.
+This is a fork of aionostr that does not require Coincurve.
