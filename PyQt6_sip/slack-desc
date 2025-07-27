@@ -8,7 +8,7 @@
          |-----handy-ruler------------------------------------------------------|
 PyQt6_sip: PyQt6_sip (PyQt6 sip Extension Module)
 PyQt6_sip:
-PyQt6_sip: The sip extension module provides support for the PyQt5 package.
+PyQt6_sip: The sip extension module provides support for the PyQt6 package.
 PyQt6_sip:
 PyQt6_sip: Homepage: https://pypi.org/project/PyQt6-sip/
 PyQt6_sip:
