@@ -6,14 +6,14 @@
 # customary to leave one space after the ':' except on otherwise blank lines.
 
                     |-----handy-ruler------------------------------------------------------|
-python3-electrum_ecc: python3-electrum_ecc (pure python interface to libsecp256k1)
-python3-electrum_ecc:
-python3-electrum_ecc: This package provides a pure python interface to libsecp256k1.
-python3-electrum_ecc: Unlike Coincurve, it uses ctypes, and has no dependency.
-python3-electrum_ecc:
-python3-electrum_ecc: https://github.com/spesmilo/electrum-ecc
-python3-electrum_ecc:
-python3-electrum_ecc:
-python3-electrum_ecc:
-python3-electrum_ecc:
-python3-electrum_ecc:
+python3-electrum-ecc: python3-electrum-ecc (pure python interface to libsecp256k1)
+python3-electrum-ecc:
+python3-electrum-ecc: This package provides a pure python interface to libsecp256k1.
+python3-electrum-ecc: Unlike Coincurve, it uses ctypes, and has no dependency.
+python3-electrum-ecc:
+python3-electrum-ecc: https://github.com/spesmilo/electrum-ecc
+python3-electrum-ecc:
+python3-electrum-ecc:
+python3-electrum-ecc:
+python3-electrum-ecc:
+python3-electrum-ecc:

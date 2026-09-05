@@ -23,7 +23,7 @@
 
 cd $(dirname $0) ; CWD=$(pwd)
 
-PRGNAM=python3-electrum_ecc
+PRGNAM=python3-electrum-ecc
 VERSION=${VERSION:-0.0.7}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_nnb}
