@@ -29,7 +29,7 @@ BUILD=${BUILD:-1}
 TAG=${TAG:-_nnb}
 PKGTYPE=${PKGTYPE:-tgz}
 
-SRCNAM=electrum-ecc
+SRCNAM=${PRGNAM#python3-}
 
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
