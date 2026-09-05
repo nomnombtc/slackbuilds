@@ -6,14 +6,14 @@
 # customary to leave one space after the ':' except on otherwise blank lines.
 
                          |-----handy-ruler------------------------------------------------------|
-python3-electrum_aionostr: python3-electrum_aionostr (asyncio nostr client)
-python3-electrum_aionostr:
-python3-electrum_aionostr: This is a fork of aionostr that does not require Coincurve. 
-python3-electrum_aionostr:
-python3-electrum_aionostr:
-python3-electrum_aionostr: https://github.com/spesmilo/electrum-aionostr
-python3-electrum_aionostr:
-python3-electrum_aionostr:
-python3-electrum_aionostr:
-python3-electrum_aionostr:
-python3-electrum_aionostr:
+python3-electrum-aionostr: python3-electrum-aionostr (asyncio nostr client)
+python3-electrum-aionostr:
+python3-electrum-aionostr: This is a fork of aionostr that does not require Coincurve. 
+python3-electrum-aionostr:
+python3-electrum-aionostr:
+python3-electrum-aionostr: https://github.com/spesmilo/electrum-aionostr
+python3-electrum-aionostr:
+python3-electrum-aionostr:
+python3-electrum-aionostr:
+python3-electrum-aionostr:
+python3-electrum-aionostr:
