@@ -1,0 +1,36 @@
+diff --color '--color=auto' -Nurp a/pyproject.toml b/pyproject.toml
+--- a/pyproject.toml	2025-12-11 18:05:26.000000000 +0100
++++ b/pyproject.toml	2026-09-05 05:09:59.306939039 +0200
+@@ -12,7 +12,7 @@ keywords = ["nostr", "asyncio"]
+ readme = "README.md"
+ license = "BSD-3-Clause"
+ license-files = ["LICENSE"]
+-requires-python = ">=3.10"
++requires-python = ">=3.9"
+ dependencies = [
+     "electrum_ecc",
+     "aiohttp>=3.11.0,<4.0.0",
+@@ -24,6 +24,7 @@ classifiers = [
+     "Intended Audience :: Developers",
+     "Natural Language :: English",
+     "Programming Language :: Python :: 3",
++    "Programming Language :: Python :: 3.9",
+     "Programming Language :: Python :: 3.10",
+     "Programming Language :: Python :: 3.11",
+     "Programming Language :: Python :: 3.12",
+diff --color '--color=auto' -Nurp a/src/electrum_aionostr/event.py b/src/electrum_aionostr/event.py
+--- a/src/electrum_aionostr/event.py	2025-12-11 18:05:26.000000000 +0100
++++ b/src/electrum_aionostr/event.py	2026-09-05 05:09:21.136155748 +0200
+@@ -38,10 +38,10 @@ class InvalidEvent(ValueError):
+     pass
+ 
+ 
+-@dataclasses.dataclass(frozen=True, kw_only=True, slots=True)
++@dataclasses.dataclass(frozen=True)
+ class Event:
+-    id: Optional[str] = None
+     pubkey: str
++    id: Optional[str] = None
+     content: str = ""
+     created_at: int = dataclasses.field(default_factory=lambda: int(time.time()))
+     kind: int = EventKind.TEXT_NOTE
