@@ -30,6 +30,7 @@ TAG=${TAG:-_nnb}
 PKGTYPE=${PKGTYPE:-tgz}
 
 SRCNAM=${PRGNAM#python3-}
+SRCNAM=${SRCNAM//-/_}
 
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
@@ -48,23 +49,6 @@ TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
 OUTPUT=${OUTPUT:-/tmp}
 
-if [ "$ARCH" = "i586" ]; then
-  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
-  LIBDIRSUFFIX=""
-elif [ "$ARCH" = "i686" ]; then
-  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
-  LIBDIRSUFFIX=""
-elif [ "$ARCH" = "x86_64" ]; then
-  SLKCFLAGS="-O2 -fPIC"
-  LIBDIRSUFFIX="64"
-elif [ "$ARCH" = "aarch64" ]; then
-  SLKCFLAGS="-O2 -fPIC"
-  LIBDIRSUFFIX="64"
-else
-  SLKCFLAGS="-O2"
-  LIBDIRSUFFIX=""
-fi
-
 set -e
 
 rm -rf $PKG
@@ -79,6 +63,9 @@ find -L . \
   -o -perm 511 \) -exec chmod 755 {} \; -o \
  \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
+
+PYVER=$(python3 -c 'import sys; print("%d.%d" % sys.version_info[:2])')
+export PYTHONPATH=/opt/python$PYVER/site-packages
 
 ELECTRUM_ECC_DONT_COMPILE=1 \
   python3 -m build --wheel --no-isolation
